@@ -56,6 +56,7 @@ export interface Config {
       readonly subscriptionHistory: string;
       readonly activations: string;
       readonly trials: string;
+      readonly subscription: string;
     };
   };
   readonly azure: {
@@ -73,6 +74,7 @@ const EnvsCodec = t.type({
   EVENTHUB_NAMESPACE: NonEmptyString,
   SERVICEBUS_NAMESPACE: NonEmptyString,
   LEASES_COSMOSDB_CONTAINER_NAME: NonEmptyString,
+  SUBSCRIPTION_COSMOSDB_CONTAINER_NAME: NonEmptyString,
   SUBSCRIPTION_REQUEST_CONSUMER: OnOrOffCodec,
   SUBSCRIPTION_REQUEST_EVENTHUB_NAME: NonEmptyString,
   SUBSCRIPTION_HISTORY_CONSUMER: OnOrOffCodec,
@@ -143,6 +145,7 @@ export const parseConfig = (
               envs.SUBSCRIPTION_HISTORY_COSMOSDB_CONTAINER_NAME,
             activations: envs.ACTIVATIONS_COSMOSDB_CONTAINER_NAME,
             trials: envs.TRIALS_COSMOSDB_CONTAINER_NAME,
+            subscription: envs.SUBSCRIPTION_COSMOSDB_CONTAINER_NAME,
           },
         },
         azure: {

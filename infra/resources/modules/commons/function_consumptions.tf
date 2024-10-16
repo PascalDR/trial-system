@@ -27,6 +27,8 @@ locals {
 
     LEASES_COSMOSDB_CONTAINER_NAME = azurerm_cosmosdb_sql_container.leases.name
 
+    SUBSCRIPTION_COSMOSDB_CONTAINER_NAME = azurerm_cosmosdb_sql_container.subscription.name
+
     SUBSCRIPTION_HISTORY_CONSUMER                        = "on"
     SUBSCRIPTION_HISTORY_COSMOSDB_CONTAINER_NAME         = azurerm_cosmosdb_sql_container.subscription_history.name
     SubscriptionHistoryCosmosConnection__accountEndpoint = module.cosmosdb_account.endpoint
