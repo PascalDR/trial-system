@@ -10,7 +10,8 @@
     "lint": "eslint --fix",
     "lint:check": "eslint",
     "generate": "shx rm -rf ./src/generated/definitions/trial && shx mkdir -p ./src/generated/definitions/trial && gen-api-models --api-spec ../../infra/resources/modules/commons/api/ts_management/v1/_openapi.yaml --no-strict --out-dir ./src/generated/definitions/trial --request-types --response-decoders --client",
-    "start:massive-activation": "npm run generate && npm run build && node -r dotenv/config dist/massive-activation.js dotenv_config_path=.env"
+    "start:massive-activation": "npm run generate && npm run build && node -r dotenv/config dist/massive-activation.js dotenv_config_path=.env",
+    "start:migrate-trials": "npm run build && node -r dotenv/config dist/migrate-trials.js dotenv_config_path=.env"
   },
   "devDependencies": {
     "@pagopa/openapi-codegen-ts": "^13.1.0",
