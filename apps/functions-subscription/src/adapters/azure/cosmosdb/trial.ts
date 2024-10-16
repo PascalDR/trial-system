@@ -8,8 +8,9 @@ import { TrialCodec, TrialReader, TrialWriter } from '../../../domain/trial';
 
 export const makeTrialsCosmosContainer = (
   db: Database,
+  containerName: string,
 ): TrialReader & TrialWriter => {
-  const container = db.container('trials');
+  const container = db.container(containerName);
   return {
     get: (trialId) =>
       pipe(

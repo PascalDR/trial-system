@@ -8,6 +8,7 @@ import { makeSubscriptionHistoryCosmosContainer } from '../subscription-history'
 import { ItemAlreadyExists } from '../../../../domain/errors';
 
 describe('makeSubscriptionHistoryCosmosContainer', () => {
+  const containerName = 'aContainerName';
   describe('insert', () => {
     it('should insert the item if does not already exist', async () => {
       const mockDB = makeDatabaseMock();
@@ -17,10 +18,10 @@ describe('makeSubscriptionHistoryCosmosContainer', () => {
         .container('')
         .items.create.mockResolvedValueOnce({ body: aSubscriptionHistory });
 
-      const actual =
-        await makeSubscriptionHistoryCosmosContainer(testDB).insert(
-          aSubscriptionHistory,
-        )();
+      const actual = await makeSubscriptionHistoryCosmosContainer(
+        testDB,
+        containerName,
+      ).insert(aSubscriptionHistory)();
 
       expect(actual).toStrictEqual(E.right(aSubscriptionHistory));
       expect(mockDB.container('').items.create).toBeCalledWith(
@@ -37,10 +38,10 @@ describe('makeSubscriptionHistoryCosmosContainer', () => {
 
       mockDB.container('').items.create.mockRejectedValueOnce(error);
 
-      const actual =
-        await makeSubscriptionHistoryCosmosContainer(testDB).insert(
-          aSubscriptionHistory,
-        )();
+      const actual = await makeSubscriptionHistoryCosmosContainer(
+        testDB,
+        containerName,
+      ).insert(aSubscriptionHistory)();
 
       expect(actual).toMatchObject(
         E.left(
@@ -67,6 +68,7 @@ describe('makeSubscriptionHistoryCosmosContainer', () => {
 
       const actual = await makeSubscriptionHistoryCosmosContainer(
         testDB,
+        containerName,
       ).getLatest({ subscriptionId })();
 
       expect(actual).toStrictEqual(E.right(O.some(aSubscriptionHistory)));
@@ -93,6 +95,7 @@ describe('makeSubscriptionHistoryCosmosContainer', () => {
 
       const actual = await makeSubscriptionHistoryCosmosContainer(
         testDB,
+        containerName,
       ).getLatest({ subscriptionId })();
 
       expect(actual).toStrictEqual(E.right(O.none));

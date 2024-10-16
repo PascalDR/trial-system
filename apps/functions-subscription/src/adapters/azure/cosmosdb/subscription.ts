@@ -12,8 +12,9 @@ import { cosmosErrorToDomainError } from './errors';
 
 export const makeSubscriptionCosmosContainer = (
   db: Database,
+  containerName: string,
 ): SubscriptionReader & SubscriptionWriter => {
-  const container = db.container('subscription');
+  const container = db.container(containerName);
   return {
     get: (subscriptionId) =>
       pipe(

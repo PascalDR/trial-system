@@ -8,6 +8,7 @@ import { ItemAlreadyExists } from '../../../../domain/errors';
 import { makeTrialsCosmosContainer } from '../trial';
 
 describe('makeTrialsCosmosContainer', () => {
+  const containerName = 'aContainerName';
   describe('get', () => {
     const { id } = aTrial;
     it('should return the item if found', async () => {
@@ -19,6 +20,7 @@ describe('makeTrialsCosmosContainer', () => {
 
       const actual = await makeTrialsCosmosContainer(
         mockDB as unknown as Database,
+        containerName,
       ).get(id)();
 
       expect(actual).toStrictEqual(E.right(O.some(aTrial)));
@@ -34,6 +36,7 @@ describe('makeTrialsCosmosContainer', () => {
 
       const actual = await makeTrialsCosmosContainer(
         mockDB as unknown as Database,
+        containerName,
       ).get(id)();
 
       expect(actual).toStrictEqual(E.right(O.none));
@@ -50,6 +53,7 @@ describe('makeTrialsCosmosContainer', () => {
 
       const actual = await makeTrialsCosmosContainer(
         mockDB as unknown as Database,
+        containerName,
       ).insert(aTrial)();
 
       expect(actual).toStrictEqual(E.right(aTrial));
@@ -66,6 +70,7 @@ describe('makeTrialsCosmosContainer', () => {
 
       const actual = await makeTrialsCosmosContainer(
         mockDB as unknown as Database,
+        containerName,
       ).insert(aTrial)();
 
       expect(actual).toMatchObject(
@@ -87,7 +92,10 @@ describe('makeTrialsCosmosContainer', () => {
         .container('')
         .items.upsert.mockResolvedValueOnce({ resource: aTrial });
 
-      const actual = await makeTrialsCosmosContainer(testDB).upsert(aTrial)();
+      const actual = await makeTrialsCosmosContainer(
+        testDB,
+        containerName,
+      ).upsert(aTrial)();
 
       expect(actual).toStrictEqual(E.right(aTrial));
       expect(mockDB.container('').items.upsert).toBeCalledWith(aTrial);
@@ -100,7 +108,10 @@ describe('makeTrialsCosmosContainer', () => {
 
       mockDB.container('').items.upsert.mockRejectedValueOnce(error);
 
-      const actual = await makeTrialsCosmosContainer(testDB).upsert(aTrial)();
+      const actual = await makeTrialsCosmosContainer(
+        testDB,
+        containerName,
+      ).upsert(aTrial)();
 
       expect(actual).toStrictEqual(E.left(error));
       expect(mockDB.container('').items.upsert).toBeCalledWith(aTrial);

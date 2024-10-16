@@ -13,8 +13,9 @@ import { decodeFromFeed } from './decode';
 
 export const makeSubscriptionHistoryCosmosContainer = (
   db: Database,
+  containerName: string,
 ): SubscriptionHistoryReader & SubscriptionHistoryWriter => {
-  const container = db.container('subscription-history');
+  const container = db.container(containerName);
   return {
     getLatest: ({ subscriptionId }) =>
       pipe(

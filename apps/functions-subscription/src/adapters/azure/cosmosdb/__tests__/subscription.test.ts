@@ -8,6 +8,7 @@ import { aSubscription } from '../../../../domain/__tests__/data';
 import { ItemAlreadyExists } from '../../../../domain/errors';
 
 describe('makeSubscriptionCosmosContainer', () => {
+  const containerName = 'aContainerName';
   describe('get', () => {
     it('should return the item if found', async () => {
       const mockDB = makeDatabaseMock();
@@ -19,6 +20,7 @@ describe('makeSubscriptionCosmosContainer', () => {
 
       const actual = await makeSubscriptionCosmosContainer(
         mockDB as unknown as Database,
+        containerName,
       ).get(aSubscription.id)();
 
       expect(actual).toStrictEqual(E.right(O.some(aSubscription)));
@@ -35,6 +37,7 @@ describe('makeSubscriptionCosmosContainer', () => {
 
       const actual = await makeSubscriptionCosmosContainer(
         mockDB as unknown as Database,
+        containerName,
       ).get(aSubscription.id)();
 
       expect(actual).toStrictEqual(E.right(O.none));
@@ -54,6 +57,7 @@ describe('makeSubscriptionCosmosContainer', () => {
 
       const actual = await makeSubscriptionCosmosContainer(
         mockDB as unknown as Database,
+        containerName,
       ).insert(aSubscription)();
 
       expect(actual).toStrictEqual(E.right(aSubscription));
@@ -70,6 +74,7 @@ describe('makeSubscriptionCosmosContainer', () => {
 
       const actual = await makeSubscriptionCosmosContainer(
         mockDB as unknown as Database,
+        containerName,
       ).insert(aSubscription)();
 
       expect(actual).toMatchObject(
@@ -92,8 +97,10 @@ describe('makeSubscriptionCosmosContainer', () => {
         .container('')
         .items.upsert.mockResolvedValueOnce({ resource: aSubscription });
 
-      const actual =
-        await makeSubscriptionCosmosContainer(testDB).upsert(aSubscription)();
+      const actual = await makeSubscriptionCosmosContainer(
+        testDB,
+        containerName,
+      ).upsert(aSubscription)();
 
       expect(actual).toStrictEqual(E.right(void 0));
       expect(mockDB.container('').items.upsert).toBeCalledWith(aSubscription);
@@ -106,8 +113,10 @@ describe('makeSubscriptionCosmosContainer', () => {
 
       mockDB.container('').items.upsert.mockRejectedValueOnce(error);
 
-      const actual =
-        await makeSubscriptionCosmosContainer(testDB).upsert(aSubscription)();
+      const actual = await makeSubscriptionCosmosContainer(
+        testDB,
+        containerName,
+      ).upsert(aSubscription)();
 
       expect(actual).toStrictEqual(E.left(error));
       expect(mockDB.container('').items.upsert).toBeCalledWith(aSubscription);
