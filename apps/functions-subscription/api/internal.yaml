@@ -37,6 +37,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pathTrialId'
         - $ref: '#/components/parameters/pathUserId'
+        - $ref: '#/components/parameters/headerUserId'
+        - $ref: '#/components/parameters/headerUserGroups'
       responses:
         '200':
           description: Success
@@ -64,6 +66,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pathTrialId'
         - $ref: '#/components/parameters/pathUserId'
+        - $ref: '#/components/parameters/headerUserId'
+        - $ref: '#/components/parameters/headerUserGroups'
       requestBody:
         content:
           application/json:
@@ -101,6 +105,8 @@ paths:
       description: Subscribe the given user to the given trial.
       parameters:
         - $ref: '#/components/parameters/pathTrialId'
+        - $ref: '#/components/parameters/headerUserId'
+        - $ref: '#/components/parameters/headerUserGroups'
       requestBody:
         content:
           application/json:
@@ -138,6 +144,8 @@ paths:
   /trials/{trialId}/activation-job:
     parameters:
       - $ref: '#/components/parameters/pathTrialId'
+      - $ref: '#/components/parameters/headerUserId'
+      - $ref: '#/components/parameters/headerUserGroups'
     get:
       operationId: getActivationJob
       description: Get the activation job for the given trial
@@ -196,6 +204,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemJson'
   /trials:
+    parameters:
+      - $ref: '#/components/parameters/headerUserId'
+      - $ref: '#/components/parameters/headerUserGroups'
     post:
       operationId: createTrial
       description: Create a trial
@@ -235,6 +246,8 @@ paths:
       summary: Get a trial
       parameters:
         - $ref: '#/components/parameters/pathTrialId'
+        - $ref: '#/components/parameters/headerUserId'
+        - $ref: '#/components/parameters/headerUserGroups'
       responses:
         '200':
           description: Success
@@ -281,6 +294,24 @@ components:
     pathActivationJobId:
       name: activationJobId
       in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    headerUserId:
+      name: X-User-Id
+      description: The id of the user who is invoking the Trial System's API.
+      allowEmptyValue: false
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    headerUserGroups:
+      name: X-User-Groups
+      description: A comma separated list of user groups of the user who is invoking the Trial System's API.
+      allowEmptyValue: false
+      in: header
       required: true
       schema:
         type: string
