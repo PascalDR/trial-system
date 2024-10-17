@@ -44,7 +44,7 @@ locals {
     EVENTS_SERVICEBUS_TOPIC_NAME = azurerm_servicebus_topic.events.name
 
     TRIAL_CONSUMER                          = "on"
-    TRIALS_COSMOSDB_CONTAINER_NAME          = azurerm_cosmosdb_sql_container.trials.name
+    TRIALS_COSMOSDB_CONTAINER_NAME          = azurerm_cosmosdb_sql_container.trial.name
     TrialsCosmosConnection__accountEndpoint = module.cosmosdb_account.endpoint
 
     AI_CONNECTION_STRING = azurerm_application_insights.ai.connection_string
