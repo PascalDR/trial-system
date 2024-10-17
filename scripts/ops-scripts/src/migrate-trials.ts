@@ -70,6 +70,7 @@ const runTrialMigration = async () => {
     });
 
     console.log(
+      'Operations status code:',
       JSON.stringify(
         result.map(({ statusCode, resourceBody }) => ({
           statusCode,
